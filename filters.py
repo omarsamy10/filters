@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-
+import matplotlib.pyplot as plt
 
 def mean_filter(image, kernel_size):
     rows, cols = image.shape
@@ -47,19 +47,29 @@ kernel_size=int(input("enter kernel size"))
 # Apply the arithmetic mean filter
 filtered_image = mean_filter(image,kernel_size)
 
-# Display the original and filtered images
-cv2.imshow('Original Image',image)
-cv2.imshow('Mean Filtered Image', filtered_image)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# Plot the original and filtered images
+plt.subplot(1, 2, 1)
+plt.imshow(image, cmap='gray')
+plt.title('Original Image')
+
+plt.subplot(1, 2, 2)
+plt.imshow(filtered_image, cmap='gray')
+plt.title('mean Filtered Image')
+
+plt.show()
 
 # Apply the adaptive Wiener filter
 kernel_size=int(input("enter wiener kernel size"))
 variance=int(input("enter variance"))
 filtered_image = wiener_filter(image,kernel_size,variance)
 
-# Display the original and filtered images
-cv2.imshow('Original Image', image)
-cv2.imshow('Wiener Filtered Image', filtered_image)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# Plot the original and filtered images
+plt.subplot(1, 2, 1)
+plt.imshow(image, cmap='gray')
+plt.title('Original Image')
+
+plt.subplot(1, 2, 2)
+plt.imshow(filtered_image, cmap='gray')
+plt.title('Wiener Filtered Image')
+
+plt.show()
