@@ -41,7 +41,7 @@ def wiener_filter(image, kernel_size, noise_variance=20):
     return wiener_filter
 
 # Read an example image (replace this with your image path)
-image_path = 'image.png'
+image_path = 'Image.png'
 image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 kernel_size=int(input("enter kernel size"))
 # Apply the arithmetic mean filter
@@ -72,4 +72,41 @@ plt.subplot(1, 2, 2)
 plt.imshow(filtered_image, cmap='gray')
 plt.title('Wiener Filtered Image')
 
+plt.show()
+
+
+# Apply the Sobel filter in both x and y directions
+sobel_x = cv2.Sobel(image, cv2.CV_64F, 1, 0, ksize=3)
+sobel_y = cv2.Sobel(image, cv2.CV_64F, 0, 1, ksize=3)
+
+# Calculate the gradient magnitude
+gradient_magnitude = np.sqrt(sobel_x**2 + sobel_y**2)
+
+th1=int(input("enter first of 4 threshold values"))
+th2=int(input("enter second of 4 threshold values"))
+th3=int(input("enter third of 4 threshold values"))
+th4=int(input("enter fourth of 4 threshold values"))
+
+# Define different threshold values
+threshold_values = [th1 , th2 , th3 , th4]  # Set different threshold values here
+# Lowering the threshold valuesIt means 
+# more pixels will be classified as edges 
+# Create subplots for displaying images
+num_thresholds = len(threshold_values)
+fig, axes = plt.subplots(1, num_thresholds, figsize=(15, 5))
+
+# Display images for different threshold values
+for i, threshold_value in enumerate(threshold_values):
+    thresholded_image = np.zeros_like(gradient_magnitude)
+    for r in range(gradient_magnitude.shape[0]):
+        for c in range(gradient_magnitude.shape[1]):
+            if gradient_magnitude[r, c] > threshold_value:
+                thresholded_image[r, c] = 255
+            else:
+                thresholded_image[r, c] = 0
+    axes[i].imshow(thresholded_image, cmap='gray')
+    axes[i].set_title(f'Threshold: {threshold_value}')
+    axes[i].axis('off')
+
+plt.tight_layout()
 plt.show()
